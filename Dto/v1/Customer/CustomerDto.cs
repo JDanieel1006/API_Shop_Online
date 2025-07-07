@@ -1,21 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_Shop_Online.Models
+namespace API_Shop_Online.Dto.v1.Customer
 {
-    public class Customer
+    public class CustomerDto
     {
-        [Key]
         public int Id { get; set; }
-
-        [Required]
         public string Name { get; set; }
-
-        [Required]
         public string LastName { get; set; }
-
-        [Required]
         public string Address { get; set; }
-
         public DateTime CreatedAt { get; set; }
     }
 }

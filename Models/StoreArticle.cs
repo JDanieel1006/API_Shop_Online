@@ -6,7 +6,7 @@
         public Store Store { get; set; }
 
         public int ArticleId { get; set; }
-        public Articles Article { get; set; }
+        public Article Article { get; set; }
 
         public DateTime CreatedAt { get; set; }
     }

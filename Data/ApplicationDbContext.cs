@@ -10,18 +10,21 @@ namespace API_Shop_Online.Data
         {
         }
 
-        public DbSet<Customers> Customers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public DbSet<Store> Store { get; set; }
-        public DbSet<Articles> Articles { get; set; }
+        public DbSet<Article> Articles { get; set; }
         public DbSet<StoreArticle> StoreArticle { get; set; }
-        public DbSet<CustomerArticles> CustomerArticles { get; set; }
+        public DbSet<CustomerArticle> CustomerArticles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Article>()
+                        .Property(a => a.Price)
+                        .HasPrecision(18, 2);
             modelBuilder.Entity<StoreArticle>()
                 .HasKey(ta => new { ta.StoreId, ta.ArticleId });
 
-            modelBuilder.Entity<CustomerArticles>()
+            modelBuilder.Entity<CustomerArticle>()
                 .HasKey(ca => new { ca.CustomerId, ca.ArticleId });
 
             base.OnModelCreating(modelBuilder);

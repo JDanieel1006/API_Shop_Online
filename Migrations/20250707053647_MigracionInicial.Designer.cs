@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Shop_Online.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250707025602_MigracionInicial")]
+    [Migration("20250707053647_MigracionInicial")]
     partial class MigracionInicial
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace API_Shop_Online.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("API_Shop_Online.Models.Articles", b =>
+            modelBuilder.Entity("API_Shop_Online.Models.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,6 +46,7 @@ namespace API_Shop_Online.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Stock")
@@ -56,25 +57,7 @@ namespace API_Shop_Online.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("API_Shop_Online.Models.CustomerArticles", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("CustomerId", "ArticleId");
-
-                    b.HasIndex("ArticleId");
-
-                    b.ToTable("CustomerArticles");
-                });
-
-            modelBuilder.Entity("API_Shop_Online.Models.Customers", b =>
+            modelBuilder.Entity("API_Shop_Online.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -82,7 +65,8 @@ namespace API_Shop_Online.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Addres")
+                    b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -101,6 +85,24 @@ namespace API_Shop_Online.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("API_Shop_Online.Models.CustomerArticle", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CustomerId", "ArticleId");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("CustomerArticles");
+                });
+
             modelBuilder.Entity("API_Shop_Online.Models.Store", b =>
                 {
                     b.Property<int>("Id")
@@ -109,11 +111,11 @@ namespace API_Shop_Online.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Direccion")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sucursal")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -140,15 +142,15 @@ namespace API_Shop_Online.Migrations
                     b.ToTable("StoreArticle");
                 });
 
-            modelBuilder.Entity("API_Shop_Online.Models.CustomerArticles", b =>
+            modelBuilder.Entity("API_Shop_Online.Models.CustomerArticle", b =>
                 {
-                    b.HasOne("API_Shop_Online.Models.Articles", "Article")
+                    b.HasOne("API_Shop_Online.Models.Article", "Article")
                         .WithMany("CustomerArticles")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API_Shop_Online.Models.Customers", "Customer")
+                    b.HasOne("API_Shop_Online.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -161,7 +163,7 @@ namespace API_Shop_Online.Migrations
 
             modelBuilder.Entity("API_Shop_Online.Models.StoreArticle", b =>
                 {
-                    b.HasOne("API_Shop_Online.Models.Articles", "Article")
+                    b.HasOne("API_Shop_Online.Models.Article", "Article")
                         .WithMany("StoreArticles")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -178,7 +180,7 @@ namespace API_Shop_Online.Migrations
                     b.Navigation("Store");
                 });
 
-            modelBuilder.Entity("API_Shop_Online.Models.Articles", b =>
+            modelBuilder.Entity("API_Shop_Online.Models.Article", b =>
                 {
                     b.Navigation("CustomerArticles");
 

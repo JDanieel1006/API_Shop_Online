@@ -1,6 +1,6 @@
 ﻿namespace API_Shop_Online.Models
 {
-    public class Articles
+    public class Article
     {
         public int Id { get; set; }
         public string Code { get; set; }
@@ -10,6 +10,6 @@
         public int Stock { get; set; }
 
         public ICollection<StoreArticle> StoreArticles { get; set; }
-        public ICollection<CustomerArticles> CustomerArticles { get; set; }
+        public ICollection<CustomerArticle> CustomerArticles { get; set; }
     }
 }
