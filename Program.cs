@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore;
 using API_Shop_Online.Data;
-using API_Shop_Online.Services.Customers;
 using API_Shop_Online.Mapper;
+using API_Shop_Online.Services.Customers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cors
+builder.Services.Configure<string[]>(builder.Configuration.GetSection("AddCors"));
+
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+var addCors = builder.Configuration.GetSection("AddCors").Get<string[]>();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy
+                .WithOrigins(addCors)
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    );
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,6 +53,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
