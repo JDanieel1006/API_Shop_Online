@@ -8,6 +8,6 @@
         public int ArticleId { get; set; }
         public Article Article { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

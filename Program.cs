@@ -1,6 +1,7 @@
 using API_Shop_Online.Data;
 using API_Shop_Online.Mapper;
 using API_Shop_Online.Services.Customers;
+using API_Shop_Online.Services.Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 //Add services
 builder.Services.AddScoped<ICustomersService, CustomersService>();
+builder.Services.AddScoped<IStoreService, StoreService>();
 
 // Add automapper
 builder.Services.AddAutoMapper(typeof(StoreMapper));

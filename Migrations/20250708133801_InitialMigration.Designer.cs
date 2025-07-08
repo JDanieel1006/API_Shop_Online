@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Shop_Online.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250707053647_MigracionInicial")]
-    partial class MigracionInicial
+    [Migration("20250708133801_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,7 @@ namespace API_Shop_Online.Migrations
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Fecha")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("CustomerId", "ArticleId");
@@ -115,13 +115,16 @@ namespace API_Shop_Online.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Store");
+                    b.ToTable("Stores");
                 });
 
             modelBuilder.Entity("API_Shop_Online.Models.StoreArticle", b =>
@@ -139,13 +142,13 @@ namespace API_Shop_Online.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.ToTable("StoreArticle");
+                    b.ToTable("StoreArticles");
                 });
 
             modelBuilder.Entity("API_Shop_Online.Models.CustomerArticle", b =>
                 {
                     b.HasOne("API_Shop_Online.Models.Article", "Article")
-                        .WithMany("CustomerArticles")
+                        .WithMany("CustomerArticle")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -164,7 +167,7 @@ namespace API_Shop_Online.Migrations
             modelBuilder.Entity("API_Shop_Online.Models.StoreArticle", b =>
                 {
                     b.HasOne("API_Shop_Online.Models.Article", "Article")
-                        .WithMany("StoreArticles")
+                        .WithMany("StoreArticle")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -182,9 +185,9 @@ namespace API_Shop_Online.Migrations
 
             modelBuilder.Entity("API_Shop_Online.Models.Article", b =>
                 {
-                    b.Navigation("CustomerArticles");
+                    b.Navigation("CustomerArticle");
 
-                    b.Navigation("StoreArticles");
+                    b.Navigation("StoreArticle");
                 });
 
             modelBuilder.Entity("API_Shop_Online.Models.Store", b =>

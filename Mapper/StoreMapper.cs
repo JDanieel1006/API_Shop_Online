@@ -1,4 +1,5 @@
 ﻿using API_Shop_Online.Dto.v1.Customer;
+using API_Shop_Online.Dto.v1.Store;
 using API_Shop_Online.Models;
 using AutoMapper;
 
@@ -9,7 +10,9 @@ namespace API_Shop_Online.Mapper
         public StoreMapper()
         {
             CreateMap<CustomerSubmissionDto, Customer>();
-            CreateMap<Customer, CustomerDto>().ReverseMap();
+            CreateMap<Customer, CustomerDto>();
+            CreateMap<StoreSubmissionDto, Store>();
+            CreateMap<Store, StoreDto>().ReverseMap();
         }
     }
 }

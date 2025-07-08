@@ -9,7 +9,7 @@
         public string Image { get; set; }
         public int Stock { get; set; }
 
-        public ICollection<StoreArticle> StoreArticles { get; set; }
-        public ICollection<CustomerArticle> CustomerArticles { get; set; }
+        public ICollection<StoreArticle>? StoreArticle { get; set; }
+        public ICollection<CustomerArticle>? CustomerArticle { get; set; }
     }
 }

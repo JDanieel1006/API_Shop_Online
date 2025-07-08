@@ -1,24 +1,25 @@
 ﻿using API_Shop_Online.Dto.v1.Customer;
+using API_Shop_Online.Dto.v1.Store;
 using API_Shop_Online.Models;
 using API_Shop_Online.Services.Customers;
+using API_Shop_Online.Services.Store;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Shop_Online.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("v1/customers")]
-    public class CustomersController : ControllerBase
+    [Route("v1/stores")]
+    public class StoreController : ControllerBase
     {
-        private readonly ICustomersService _customersService;
+        private readonly IStoreService storeService;
         private readonly IMapper _mapper;
 
-        public CustomersController(ICustomersService ctRepo, IMapper mapper)
+        public StoreController(IStoreService ctRepo, IMapper mapper)
         {
-            _customersService = ctRepo;
+            storeService = ctRepo;
             _mapper = mapper;
         }
 
@@ -28,18 +29,18 @@ namespace API_Shop_Online.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult Get()
         {
-            var response = _customersService.Get();
+            var response = storeService.Get();
 
-            var lisDto = new List<CustomerDto>();
+            var lisDto = new List<StoreDto>();
 
             foreach (var lista in response)
             {
-                lisDto.Add(_mapper.Map<CustomerDto>(lista));
+                lisDto.Add(_mapper.Map<StoreDto>(lista));
             }
             return Ok(lisDto);
         }
 
-        [HttpGet("{id}", Name = "GetCustomerById")]
+        [HttpGet("{id}", Name = "GetStoreById")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Customer))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -47,7 +48,7 @@ namespace API_Shop_Online.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetById(int id)
         {
-            return Ok(_customersService.GetById(id));
+            return Ok(storeService.GetById(id));
         }
 
         [HttpPost]
@@ -56,9 +57,9 @@ namespace API_Shop_Online.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Create([FromBody] CustomerSubmissionDto request)
+        public async Task<IActionResult> Create([FromBody] StoreSubmissionDto request)
         {
-            var response = await _customersService.Create(request);
+            var response = await storeService.Create(request);
 
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }
@@ -70,9 +71,9 @@ namespace API_Shop_Online.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Update(int id, [FromBody] CustomerSubmissionDto request)
+        public async Task<IActionResult> Update(int id, [FromBody] StoreSubmissionDto request)
         {
-            var result = await _customersService.Update(id, request);
+            var result = await storeService.Update(id, request);
 
             return Ok(result);
         }
@@ -85,7 +86,7 @@ namespace API_Shop_Online.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
-            _customersService.Delete(id);
+            storeService.Delete(id);
 
             return NoContent();
         }
