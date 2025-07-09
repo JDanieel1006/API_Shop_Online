@@ -1,5 +1,6 @@
 using API_Shop_Online.Data;
 using API_Shop_Online.Mapper;
+using API_Shop_Online.Services.Article;
 using API_Shop_Online.Services.Customers;
 using API_Shop_Online.Services.Store;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //Add services
 builder.Services.AddScoped<ICustomersService, CustomersService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
 
 // Add automapper
 builder.Services.AddAutoMapper(typeof(StoreMapper));
@@ -55,6 +57,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
 
 app.UseCors();
 

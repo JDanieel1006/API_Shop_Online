@@ -1,6 +1,5 @@
 ﻿using API_Shop_Online.Data;
 using API_Shop_Online.Dto.v1.Store;
-using API_Shop_Online.Models;
 using AutoMapper;
 
 namespace API_Shop_Online.Services.Store
