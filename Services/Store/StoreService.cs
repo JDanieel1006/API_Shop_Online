@@ -78,6 +78,11 @@ namespace API_Shop_Online.Services.Store
 
             entry.CreatedAt = DateTime.UtcNow;
 
+            if (uniqueFileName != null)
+            {
+                entry.Image = uniqueFileName;
+            }
+
             _bd.Stores.Add(entry);
 
             await _bd.SaveChangesAsync();

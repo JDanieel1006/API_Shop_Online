@@ -11,5 +11,6 @@
 
         public ICollection<StoreArticle>? StoreArticle { get; set; }
         public ICollection<CustomerArticle>? CustomerArticle { get; set; }
+        public ICollection<SaleArticle> SaleArticles { get; set; }
     }
 }

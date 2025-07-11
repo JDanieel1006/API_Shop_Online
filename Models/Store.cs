@@ -16,5 +16,6 @@ namespace API_Shop_Online.Models
         public DateTime CreatedAt { get; set; }
 
         public ICollection<StoreArticle>? StoreArticle { get; set; }
+        public ICollection<Sale> Sales { get; set; }
     }
 }

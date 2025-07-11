@@ -4,6 +4,7 @@ using API_Shop_Online.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Shop_Online.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250711142625_AddSaleTable")]
+    partial class AddSaleTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,6 +114,9 @@ namespace API_Shop_Online.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -125,43 +131,7 @@ namespace API_Shop_Online.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("StoreId");
-
                     b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("API_Shop_Online.Models.SaleArticle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SaleId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SaleArticles");
                 });
 
             modelBuilder.Entity("API_Shop_Online.Models.Store", b =>
@@ -228,44 +198,6 @@ namespace API_Shop_Online.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("API_Shop_Online.Models.Sale", b =>
-                {
-                    b.HasOne("API_Shop_Online.Models.Customer", "Customer")
-                        .WithMany("Sales")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API_Shop_Online.Models.Store", "Store")
-                        .WithMany("Sales")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Store");
-                });
-
-            modelBuilder.Entity("API_Shop_Online.Models.SaleArticle", b =>
-                {
-                    b.HasOne("API_Shop_Online.Models.Article", "Article")
-                        .WithMany("SaleArticles")
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API_Shop_Online.Models.Sale", "Sale")
-                        .WithMany("SaleArticles")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Article");
-
-                    b.Navigation("Sale");
-                });
-
             modelBuilder.Entity("API_Shop_Online.Models.StoreArticle", b =>
                 {
                     b.HasOne("API_Shop_Online.Models.Article", "Article")
@@ -289,25 +221,11 @@ namespace API_Shop_Online.Migrations
                 {
                     b.Navigation("CustomerArticle");
 
-                    b.Navigation("SaleArticles");
-
                     b.Navigation("StoreArticle");
-                });
-
-            modelBuilder.Entity("API_Shop_Online.Models.Customer", b =>
-                {
-                    b.Navigation("Sales");
-                });
-
-            modelBuilder.Entity("API_Shop_Online.Models.Sale", b =>
-                {
-                    b.Navigation("SaleArticles");
                 });
 
             modelBuilder.Entity("API_Shop_Online.Models.Store", b =>
                 {
-                    b.Navigation("Sales");
-
                     b.Navigation("StoreArticle");
                 });
 #pragma warning restore 612, 618
