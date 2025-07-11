@@ -16,6 +16,7 @@ namespace API_Shop_Online.Mapper
             CreateMap<Store, StoreDto>().ReverseMap();
             CreateMap<ArticleSubmissionDto, Article>();
             CreateMap<Article, ArticleDto>();
+            CreateMap<StoreArticle, StoreArticleDto>();
         }
     }
 }

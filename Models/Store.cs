@@ -11,6 +11,8 @@ namespace API_Shop_Online.Models
         [Required]
         public string Address { get; set; }
 
+        public string? Image { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public ICollection<StoreArticle>? StoreArticle { get; set; }

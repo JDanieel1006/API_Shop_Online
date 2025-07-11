@@ -31,13 +31,24 @@ namespace API_Shop_Online.Controllers
         {
             var response = articleService.Get();
 
+            var baseUrl = $"{Request.Scheme}://{Request.Host}/images/";
+
             var lisDto = new List<ArticleDto>();
 
-            foreach (var lista in response)
+            foreach (var article in response)
             {
-                lisDto.Add(_mapper.Map<ArticleDto>(lista));
+                var dto = _mapper.Map<ArticleDto>(article);
+
+                // Asume que article.Image es solo el nombre del archivo
+                dto.ImageUrl = !string.IsNullOrEmpty(article.Image)
+                    ? baseUrl + article.Image
+                    : null;
+
+                lisDto.Add(dto);
             }
+
             return Ok(lisDto);
+
         }
 
         [HttpGet("{id}", Name = "GetArticleById")]
