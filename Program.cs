@@ -4,8 +4,11 @@ using API_Shop_Online.Services.Article;
 using API_Shop_Online.Services.Customers;
 using API_Shop_Online.Services.Sales;
 using API_Shop_Online.Services.Store;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +50,20 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         }
     );
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes("SOKkDLUTAcCLP90FYQw18T7kNPvk7Ey7"))
+    };
 });
 
 var app = builder.Build();

@@ -5,6 +5,7 @@ using API_Shop_Online.Services.Customers;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_Shop_Online.Controllers
@@ -21,6 +22,18 @@ namespace API_Shop_Online.Controllers
         {
             _customersService = ctRepo;
             _mapper = mapper;
+        }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] CustomerLoginSubmissionDto request)
+        {
+            var token = await _customersService.AuthCustomer(request.Email, request.Password);
+
+            if (token == null)
+                return Unauthorized(new { message = "Credenciales inválidas" });
+
+            return Ok(new { token });
         }
 
         [HttpGet]

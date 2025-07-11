@@ -8,6 +8,8 @@ namespace API_Shop_Online.Services.Customers
     {
         ICollection<Customer> Get();
 
+        Task<string> AuthCustomer(string email, string password);
+
         Customer? GetById(int id);
 
         Task<List<CustomerArticleDto>> GetArticlesByCustomer(int customerId, CustomerArticleStatus? status = null);

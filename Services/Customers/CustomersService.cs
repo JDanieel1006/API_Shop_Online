@@ -4,6 +4,10 @@ using API_Shop_Online.Dto.v1.Customer;
 using API_Shop_Online.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace API_Shop_Online.Services.Customers
 {
@@ -11,11 +15,37 @@ namespace API_Shop_Online.Services.Customers
     {
         private readonly ApplicationDbContext _bd;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public CustomersService(ApplicationDbContext bd, IMapper mapper)
+        public CustomersService(ApplicationDbContext bd, IMapper mapper, IConfiguration configuration)
         {
             _bd = bd;
             _mapper = mapper;
+            _configuration = configuration;
+        }
+
+        public async Task<string> AuthCustomer(string email, string password)
+        {
+            var customer = await _bd.Customers
+                .FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+            if (customer == null)
+                return null;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                new Claim(ClaimTypes.NameIdentifier, customer.Id.ToString()),
+                new Claim(ClaimTypes.Name, customer.Email)
+            }),
+                Expires = DateTime.UtcNow.AddHours(2),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         public ICollection<Customer> Get()
