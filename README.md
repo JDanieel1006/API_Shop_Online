@@ -11,7 +11,7 @@ API desarrollada en **ASP.NET Core** con **Entity Framework Core** para la gesti
 - **Soporte para subida de imágenes y manejo de archivos**
 - **Roles de usuario y administrador**
 - **DTOs y AutoMapper para seguridad y claridad en la transferencia de datos**
-- **CORS habilitado para desarrollo frontend (Angular/React/Vue)**
+- **CORS habilitado para desarrollo frontend (Angular)**
 
 ---
 
@@ -29,7 +29,6 @@ API desarrollada en **ASP.NET Core** con **Entity Framework Core** para la gesti
 
 - [.NET 8 SDK o superior](https://dotnet.microsoft.com/download)
 - SQL Server (puedes usar SQL Server Express para pruebas)
-- Node.js y Angular (opcional, si consumes desde frontend)
 
 ---
 
