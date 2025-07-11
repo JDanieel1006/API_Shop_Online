@@ -4,6 +4,7 @@ using API_Shop_Online.Services.Article;
 using API_Shop_Online.Services.Customers;
 using API_Shop_Online.Services.Sales;
 using API_Shop_Online.Services.Store;
+using API_Shop_Online.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ builder.Services.AddScoped<ICustomersService, CustomersService>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ISalesService, SalesService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Add automapper
 builder.Services.AddAutoMapper(typeof(StoreMapper));

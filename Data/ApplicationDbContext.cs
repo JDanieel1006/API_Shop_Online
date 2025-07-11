@@ -17,6 +17,7 @@ namespace API_Shop_Online.Data
         public DbSet<CustomerArticle> CustomerArticles { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<SaleArticle> SaleArticles { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
