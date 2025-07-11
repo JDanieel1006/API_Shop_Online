@@ -1,4 +1,5 @@
-﻿using API_Shop_Online.Dto.v1.Customer;
+﻿using API_Shop_Online.Common.Enum;
+using API_Shop_Online.Dto.v1.Customer;
 using API_Shop_Online.Models;
 using API_Shop_Online.Services.Customers;
 using AutoMapper;
@@ -41,13 +42,21 @@ namespace API_Shop_Online.Controllers
 
         [HttpGet("{id}", Name = "GetCustomerById")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Customer))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CustomerArticleDto))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetById(int id)
         {
             return Ok(_customersService.GetById(id));
+        }
+
+        [HttpGet("{customerId}/articles")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetArticlesByCustomer(int customerId, [FromQuery] CustomerArticleStatus? status)
+        {
+            var result = await _customersService.GetArticlesByCustomer(customerId, status);
+            return Ok(result);
         }
 
         [HttpPost]
@@ -61,6 +70,14 @@ namespace API_Shop_Online.Controllers
             var response = await _customersService.Create(request);
 
             return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
+        }
+
+        [HttpPost("{customerId}/articles")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddArticleToCustomer(int customerId, [FromBody] CustomerArticleSubmissionDto dto)
+        {
+            var result = await _customersService.AddArticleToCustomer(customerId, dto);
+            return CreatedAtAction(nameof(GetArticlesByCustomer), new { customerId = customerId }, result);
         }
 
         [HttpPut("{id}")]
@@ -89,5 +106,6 @@ namespace API_Shop_Online.Controllers
 
             return NoContent();
         }
+
     }
 }

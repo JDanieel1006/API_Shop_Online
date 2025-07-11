@@ -17,6 +17,7 @@ namespace API_Shop_Online.Mapper
             CreateMap<ArticleSubmissionDto, Article>();
             CreateMap<Article, ArticleDto>();
             CreateMap<StoreArticle, StoreArticleDto>();
+            CreateMap<CustomerArticle, CustomerArticleDto>();
         }
     }
 }
